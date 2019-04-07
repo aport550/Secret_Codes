@@ -29,3 +29,8 @@
 .left {
 	color:blue;
 }
+.new {
+	margin:10px;
+	max-width: 600px;
+	color:blue;
+}

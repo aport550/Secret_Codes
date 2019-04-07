@@ -20,5 +20,8 @@ from secretcode import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name = 'home'),
+    path('signup', views.signup, name="signup"),
     path('secret', views.secret, name='secret'),
+    path('reg', views.reg, name='reg'),
+    path('getaccess', views.getaccess, name='getaccess'),
 ]

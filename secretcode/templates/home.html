@@ -11,10 +11,10 @@
 <nav>
 	<h1 class="homenav">Secret Codes</h1>
 </nav>
-	<h2 class="home_sub_heading">Welcome classified informtion keeper! You are here to claim your secret code.   Please log in below to verify your identity as the one classified information keeper and get access to the secret code.  Just to remind you, your username is admin. </h2>
-
+	<h2 class="home_sub_heading">Welcome! You are here to store and claim your deepest secrets.   If you are here to claim your secret please fill out the form below with your login information.  Happy secret-ing! </h2>
+	<h3 class="home_sub_heading">If you don't have an account please sign up <a href="signup">here</a></h3>
+{{ username }}
 <div class="input">
-<!-- No form protection whatsoever, CSRF later not disabled -->
 <form enctype="multipart/form-data" action="secret" method="post">
 {% csrf_token %}  
 		<br>
@@ -25,5 +25,21 @@
     <input type="submit" value="Submit" />
 </form>
 </div>
+<a href="getaccess">
+<button>
+Don't Click
+</button>
+</a>
 
+<script type="text/javascript">
+	function getClue(){
+      var cookie_fields = (document.cookie).split("; ");
+      alert("COOKIE INFO: " + cookie_fields);
+	}
+
+
+
+
+
+</script>
 </body>
