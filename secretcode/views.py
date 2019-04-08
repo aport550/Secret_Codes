@@ -35,15 +35,18 @@ def reg(request):
         return render(request, 'home.html')
 
 #insecure login functionality below- allows unlimited password attempts
-#Hard to cause SQLIs and XSS since automatically escapes input
+#Hard to cause SQLIs and XSS since django automatically escapes input
 
 def getaccess(request):
-	myCookies = request.COOKIES
-	secret = myCookies['password']
-	username = myCookies['username']
-	template = loader.get_template('secret.html')
-	context = {'secret': username + "s password for this site is " + secret}
-	return HttpResponse(template.render(context, request))
+	try:
+	    myCookies = request.COOKIES
+	    secret = myCookies['password']
+	    username = myCookies['username']
+	    template = loader.get_template('secret.html')
+	    context = {'secret': username + "s password for this site is " + secret}
+	    return HttpResponse(template.render(context, request))
+	except:
+		pass
 
 @csrf_exempt #try to exempt CSRF protection
 def secret(request):
