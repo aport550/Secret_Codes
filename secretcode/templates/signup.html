@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+
+
+<title>Secret landing page</title>
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+<body>
+
+<nav>
+	<h1 class="homenav">Secret Codes</h1>
+</nav>
+	<h2 class="home_sub_heading">Please sign up below and enter your secret.</h2>
+
+<div class="input">
+<!-- No form protection whatsoever, CSRF later not disabled -->
+<form enctype="multipart/form-data" action="reg" method="post">
+{% csrf_token %}  
+		<br>
+        Username: <input type="text" placeholder="username" name="name"/><br>
+        <br>
+        Password: <input type="text" placeholder="password" name="password"/><br>
+        <br>
+        Secret:   <input type="text" placeholder="secret" name="secret"/><br>
+        <br>
+    <input type="submit" value="Submit" />
+</form>
+</div>
+
+</body>
