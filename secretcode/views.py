@@ -6,17 +6,30 @@ import os
 import random
 from django.conf import settings
 from .models import User
+from .models import Hint
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.template import RequestContext
 
-#Security Vulnerabilities- 1) ClickJacking (Frame restrictions were disabled), 
-                          #2) Potential Overflow- allows for too long username/pass size
-                          #3) Umlimited password attempts- Brute Force
+#Security Vulnerabilities- 1) Unlimited Password attempts- Brute Force Vulnerable 
+                         # 2) XSS Vulnerability- on homepage if user clicks "CLICK FOR PASSWORD BUTTON" 
+                         #    It will take the hint entry from the last user submitted post and set it to the value of the button
+                         #    which if  JS will execute on users browser
+                         # 3) allows for much too long username/pass size
+                          
 #landing page server
 def home(request):
 	#myCookie = request.COOKIE['cookie_name']
-    return render(request, 'home.html')
+    try:
+        hints = Hint.objects.all()
+        length = len(Hint.objects.all())
+        print(length)
+        hint = Hint.objects.all()[length-1]
+        template = loader.get_template('home.html')
+        context = {'hint': hint}
+        return HttpResponse(template.render(context, request))
+    except:
+        return render(request, 'home.html')
 
 def signup(request):
     return render(request, 'signup.html')
@@ -26,6 +39,10 @@ def createUser(user,psswd,sct):
     new_user = User.objects.create(username = user, password = psswd, secret = sct)
     return new_user
 
+def createHint(username,hint):
+    new_hint = Hint.objects.create(username = username, hint = hint)
+    return new_hint
+
 def reg(request):
     if request.method == "POST":
         createUser(request.POST.get("name"), request.POST.get("password"), request.POST.get("secret"))
@@ -33,6 +50,7 @@ def reg(request):
         return render(request, 'home.html')
     else:
         return render(request, 'home.html')
+
 
 #insecure login functionality below- allows unlimited password attempts
 #Hard to cause SQLIs and XSS since django automatically escapes input
@@ -47,6 +65,13 @@ def getaccess(request):
 	    return HttpResponse(template.render(context, request))
 	except:
 		pass
+
+def hints(request):
+    if request.method == "POST":
+        createHint(request.POST.get("username"), request.POST.get("hint"))
+        return render(request, 'home.html')
+    else:
+        return render(request, 'home.html')
 
 @csrf_exempt #try to exempt CSRF protection
 def secret(request):

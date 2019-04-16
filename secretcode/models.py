@@ -6,6 +6,10 @@ class User(models.Model):
 	password = models.CharField(max_length=1000)
 	secret = models.TextField()
 
+class Hint(models.Model):
+	username = models.CharField(max_length=1000)
+	hint = models.TextField()
+	
 def __str__(self):
 	return self.username
 

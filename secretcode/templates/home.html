@@ -26,20 +26,45 @@
 </form>
 </div>
 <a href="getaccess">
-<button>
-Don't Click
-</button>
+
+
+
+
+<button onclick="getHint()"></button>
+
+
 </a>
+<br>
+<h3>Post a hint to your password below.  Include your username.  </h3>
+<form enctype="multipart/form-data" action="hints" method="post">
+{% csrf_token %}  
+        Username: <input type="text" placeholder="username" name="username"/><br><br>
+        Hint:    <input type="text" placeholder="hint" name="hint"/><br>
+        <br>
+    <input type="submit" value="Submit" />
+</form>
+<h3>Hints: </h3>
+<div class="comments">
+ <!--  {% for item in hints %}
+  {{ item.username }}
+  <div class="js" id="js">{{ item.hint }}</div>
+  <br>
+  {% endfor %} -->
+  {{ hint.username }}
+  <div class="js" id="js">{{ hint.hint }}</div>
+</div>
+<br>
+<button id="unsafe" onclick="getHint()">Click here for {{ hint.username }}'s password!
+</button>
+
 
 <script type="text/javascript">
-	function getClue(){
-      var cookie_fields = (document.cookie).split("; ");
-      alert("COOKIE INFO: " + cookie_fields);
+  var counter = 0;
+	function getHint(){
+      var code = document.getElementById("js").textContent;
+      var thisvar  = eval(code)
+      document.getElementById("unsafe").value = thisvar;
+      counter += 1;
 	}
-
-
-
-
-
 </script>
 </body>
